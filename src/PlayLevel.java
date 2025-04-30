@@ -121,7 +121,7 @@ public class PlayLevel {
     public static void main(String[] args) {
         MarioGame game = new MarioGame();
         // printResults(game.runGame(new agents.collector.Agent(), getLevel("../levels/original/lvl-1.txt"), 50, 0, true));
-        repeatCollector(5);
+        repeatCollector(3);
         // repeatKiller(5);
         // repeatRobin(5);
     }
