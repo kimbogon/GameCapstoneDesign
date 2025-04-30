@@ -32,7 +32,7 @@ public class PlayLevel {
     }
 
     public static void repeatKiller(int times) {
-       String part_filepath = "./Mario-AI-Framework/levels/original/lvl-";
+       String part_filepath = "../levels/original/lvl-";
        for(int j=1; j<=15; j++) {
            String full_filepath = part_filepath + j + ".txt";
            float completion = 0;
@@ -90,7 +90,7 @@ public class PlayLevel {
     }
 
     public static void repeatRobin(int times) {
-        String part_filepath = "./Mario-AI-Framework/levels/original/lvl-";
+        String part_filepath = "../levels/original/lvl-";
         for(int j=1; j<=15; j++) {
             String full_filepath = part_filepath + j + ".txt";
             float completion = 0;
@@ -118,11 +118,41 @@ public class PlayLevel {
         }
     }
 
+    public static void repeatNewAgent(int times) {
+        String part_filepath = "../levels/original/lvl-";
+        for(int j=1; j<=15; j++) {
+            String full_filepath = part_filepath + j + ".txt";
+            float completion = 0;
+            float total_kill = 0;
+            float fall_kill = 0;
+            float coins = 0;
+            for (int i = 0; i < times; i++) {
+                MarioGame game = new MarioGame();
+                // printResults(game.playGame(getLevel("../levels/original/lvl-1.txt"), 200, 0));
+                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 0, true);
+                completion += result.getCompletionPercentage();
+                total_kill += result.getKillsTotal();
+                fall_kill += result.getKillsByFall();
+                coins += result.getCurrentCoins();
+            }
+            completion /= times;
+            total_kill /= times;
+            fall_kill /= times;
+            coins /= times;
+            System.out.println("========level " + j +"=======");
+            System.out.println("completion : " + completion);
+            System.out.println("total_kill : " + total_kill);
+            System.out.println("kill : " + (total_kill - fall_kill));
+            System.out.println("coins : " + coins);
+        }
+    }
+
     public static void main(String[] args) {
         MarioGame game = new MarioGame();
         // printResults(game.runGame(new agents.collector.Agent(), getLevel("../levels/original/lvl-1.txt"), 50, 0, true));
-        repeatCollector(3);
+        // repeatCollector(5);
         // repeatKiller(5);
         // repeatRobin(5);
+        repeatNewAgent(3);
     }
 }
