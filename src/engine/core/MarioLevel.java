@@ -396,4 +396,12 @@ public class MarioLevel {
             this.flag.render(og, this.exitTileX * 16 - 8 - cameraX, Math.max(1, this.exitTileY - 11) * 16 + 16 - cameraY);
         }
     }
+
+
+
+
+    public int[][] getLevelTiles() {
+        return this.levelTiles;
+    }
+    
 }

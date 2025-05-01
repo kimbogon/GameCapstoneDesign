@@ -129,7 +129,7 @@ public class PlayLevel {
             for (int i = 0; i < times; i++) {
                 MarioGame game = new MarioGame();
                 // printResults(game.playGame(getLevel("../levels/original/lvl-1.txt"), 200, 0));
-                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 0, true);
+                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 1, true);
                 completion += result.getCompletionPercentage();
                 total_kill += result.getKillsTotal();
                 fall_kill += result.getKillsByFall();

@@ -216,6 +216,11 @@ public class MarioForwardModel {
     private int flowers;
     private int breakBlock;
 
+    private int destroyedQuestionBlocks = 0;
+    private int totalBlockCount = -1;
+    private int cumulativeJumpTime = 0;
+    private boolean wasJumping = false;
+
     /**
      * Create a forward model object
      *
@@ -260,7 +265,16 @@ public class MarioForwardModel {
                     && e.getMarioState() > 0) {
                 this.breakBlock += 1;
             }
+            if (e.getEventType() == EventType.BUMP.getValue()) {
+                if (e.getEventParam() == OBS_QUESTION_BLOCK && e.getMarioState() > 0) {
+                    this.destroyedQuestionBlocks += 1;
+                }
+            }
+            
         }
+
+        this.totalBlockCount = countTotalBlocks(world.level);
+
     }
 
     /**
@@ -312,7 +326,16 @@ public class MarioForwardModel {
                     && e.getMarioState() > 0) {
                 this.breakBlock += 1;
             }
+            if (e.getEventType() == EventType.BUMP.getValue()) {
+                if (e.getEventParam() == OBS_QUESTION_BLOCK && e.getMarioState() > 0) {
+                    this.destroyedQuestionBlocks += 1;
+                }
+            }
+            
         }
+
+        trackJumpTime(); 
+
     }
 
     /**
@@ -696,4 +719,47 @@ public class MarioForwardModel {
     public int[][] getMarioSceneObservation(int detail) {
         return this.world.getSceneObservation(this.world.mario.x, this.world.mario.y, detail);
     }
+
+
+
+
+    private int countTotalBlocks(MarioLevel level) {
+        int count = 0;
+        int[][] tiles = level.getLevelTiles(); // MarioLevel에 getter 필요
+        for (int x = 0; x < tiles.length; x++) {
+            for (int y = 0; y < tiles[x].length; y++) {
+                if (tiles[x][y] != 0) count++;
+            }
+        }
+        return count;
+    }
+    
+    /* 
+    public int getNumDestroyedQuestionBlocks() {
+        return this.destroyedQuestionBlocks;
+    }
+    
+    public float getDestroyedBlockRatio() {
+        if (totalBlockCount == 0) return 0;
+        return (float) this.breakBlock / totalBlockCount;
+    }
+
+    public float getDestroyedQuestionBlockRatio() {
+        if (totalBlockCount == 0) return 0;
+        return (float) this.destroyedQuestionBlocks / totalBlockCount;
+    }
+    */
+    public int getCumulativeJumpTime() {
+        return this.cumulativeJumpTime;
+    }
+    
+    private void trackJumpTime() {
+        if (this.world.mario.jumpTime > 0) {
+            cumulativeJumpTime++;
+            wasJumping = true;
+        } else if (wasJumping) {
+            wasJumping = false;
+        }
+    }
+    
 }

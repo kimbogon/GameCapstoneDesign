@@ -181,4 +181,31 @@ public class SearchNode {
                 - 88.26446282 + 9.090909091 * s0);
     }
 
+
+
+
+
+
+    /* 
+    public float getDestroyedBlockRatio() {
+        if (this.sceneSnapshot == null) {
+            return 0;
+        }
+        return this.sceneSnapshot.getDestroyedBlockRatio();
+    }
+
+    public float getDestroyedQuestionBlockRatio() {
+        if (this.sceneSnapshot == null) {
+            return 0;
+        }
+        return this.sceneSnapshot.getDestroyedQuestionBlockRatio();
+    }
+    */
+    
+    public int getCumulativeJumpTime() {
+        if (this.sceneSnapshot == null) {
+            return 0;
+        }
+        return this.sceneSnapshot.getCumulativeJumpTime();
+    }
 }
