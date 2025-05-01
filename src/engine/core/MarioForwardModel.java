@@ -220,6 +220,8 @@ public class MarioForwardModel {
     private int totalBlockCount = -1;
     private int cumulativeJumpTime = 0;
     private boolean wasJumping = false;
+    private int totalFrames = 0;
+
 
     /**
      * Create a forward model object
@@ -334,6 +336,7 @@ public class MarioForwardModel {
             
         }
 
+        this.totalFrames++;  // 매 프레임마다 증가
         trackJumpTime(); 
 
     }
@@ -723,6 +726,9 @@ public class MarioForwardModel {
 
 
 
+
+
+
     private int countTotalBlocks(MarioLevel level) {
         int count = 0;
         int[][] tiles = level.getLevelTiles(); // MarioLevel에 getter 필요
@@ -733,7 +739,7 @@ public class MarioForwardModel {
         }
         return count;
     }
-    
+
     /* 
     public int getNumDestroyedQuestionBlocks() {
         return this.destroyedQuestionBlocks;
@@ -749,10 +755,7 @@ public class MarioForwardModel {
         return (float) this.destroyedQuestionBlocks / totalBlockCount;
     }
     */
-    public int getCumulativeJumpTime() {
-        return this.cumulativeJumpTime;
-    }
-    
+
     private void trackJumpTime() {
         if (this.world.mario.jumpTime > 0) {
             cumulativeJumpTime++;
@@ -760,6 +763,15 @@ public class MarioForwardModel {
         } else if (wasJumping) {
             wasJumping = false;
         }
+    }
+    
+    public int getCumulativeJumpTime() {
+        return this.cumulativeJumpTime;
+    }
+
+    public float getJumpTimeRatio() {
+        if (totalFrames == 0) return 0f;
+        return (float) cumulativeJumpTime / totalFrames;
     }
     
 }

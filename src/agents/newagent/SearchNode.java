@@ -202,10 +202,10 @@ public class SearchNode {
     }
     */
     
-    public int getCumulativeJumpTime() {
+    public float getJumpTimeRatio() {
         if (this.sceneSnapshot == null) {
             return 0;
         }
-        return this.sceneSnapshot.getCumulativeJumpTime();
+        return this.sceneSnapshot.getJumpTimeRatio();
     }
 }
