@@ -2,8 +2,13 @@ import engine.core.MarioGame;
 import engine.core.MarioResult;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class PlayLevel {
     public static void printResults(MarioResult result) {
@@ -210,6 +215,7 @@ public class PlayLevel {
         }
     }
 
+
     public static void main(String[] args) {
         MarioGame game = new MarioGame();
         // printResults(game.runGame(new agents.collector.Agent(), getLevel("../levels/original/lvl-1.txt"), 50, 0, true));
@@ -218,4 +224,57 @@ public class PlayLevel {
         // repeatRobin(5);
         repeatNewAgent(5);
     }
+
+
+/* 
+    public static void runAllWeightConfigs() {
+        float[] jumpWeights = {0.5f, -0.5f};
+        float[] winWeights = {1.0f, -1.0f};
+        float[] loseWeights = {20.0f, -20.0f};
+
+        int count = 1;
+
+        for (float jw : jumpWeights) {
+            for (float ww : winWeights) {
+                for (float lw : loseWeights) {
+                    System.out.println("\n[" + count + "/8] Running weights: jump=" + jw + ", win=" + ww + ", lose=" + lw);
+                    writeWeights(jw, ww, lw);
+
+                    // 로그 저장
+                    try {
+                        PrintStream out = new PrintStream("logs/output_" + count + ".txt");
+                        PrintStream originalOut = System.out;
+                        System.setOut(out);
+
+                        repeatNewAgent(5);
+
+                        System.setOut(originalOut);
+                    } catch (IOException e) {
+                        System.out.println("⚠ Failed to write log file.");
+                        e.printStackTrace();
+                    }
+
+                    count++;
+                }
+            }
+        }
+    }
+
+    public static void writeWeights(float jump, float win, float lose) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("config/weights.txt"));
+            writer.write("jumpWeight=" + jump + "\n");
+            writer.write("winWeight=" + win + "\n");
+            writer.write("loseWeight=" + lose + "\n");
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("⚠ Failed to write weights.txt");
+            e.printStackTrace();
+        }   
+    }
+
+    public static void main(String[] args) {
+        runAllWeightConfigs();  // 여기에만 작성하세요
+    }
+*/
 }

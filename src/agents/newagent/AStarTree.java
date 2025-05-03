@@ -122,7 +122,7 @@ public class AStarTree {
                     SearchedLose++;
                 }
             }
-            float currentCost = 0 * current.getJumpTimeRatio() -  current.ifWin() + 20 * current.ifLose();
+            float currentCost = -50 * current.getkillrate() -40 * current.getCollectRate() -30 * current.getJumpTimeRatio() +30 * current.getRemainingTimeRatio() -100 * current.ifWin() +100 * current.ifLose();
             //System.out.println("Mario killed: " + current.getkilled() + " CurrentCost: "+ currentCost);
             if (currentCost < bestPosCost) {
                 bestPos = current;

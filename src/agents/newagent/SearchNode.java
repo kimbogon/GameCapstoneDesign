@@ -208,4 +208,8 @@ public class SearchNode {
         }
         return this.sceneSnapshot.getJumpTimeRatio();
     }
+
+    public float getRemainingTimeRatio() {
+        return 1 - getRemainingTime() / 2500f;
+    }
 }
