@@ -141,7 +141,7 @@ public class PlayLevel {
     }
      */
     public static void repeatNewAgent(int times) {
-        String part_filepath = "../levels/original/lvl-";
+        String part_filepath = "levels/original/lvl-";
         for(int j=1; j<=1; j++) {
             String full_filepath = part_filepath + j + ".txt";
             float completion = 0;
@@ -163,7 +163,7 @@ public class PlayLevel {
             for (int i = 0; i < times; i++) {
                 MarioGame game = new MarioGame();
                 // printResults(game.playGame(getLevel("../levels/original/lvl-1.txt"), 200, 0));
-                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 1, true);
+                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 1, false);
                 completion += result.getCompletionPercentage();
                 total_kill += result.getKillsTotal();
                 fall_kill += result.getKillsByFall();
@@ -215,7 +215,7 @@ public class PlayLevel {
         }
     }
 
-
+/* 
     public static void main(String[] args) {
         MarioGame game = new MarioGame();
         // printResults(game.runGame(new agents.collector.Agent(), getLevel("../levels/original/lvl-1.txt"), 50, 0, true));
@@ -224,46 +224,59 @@ public class PlayLevel {
         // repeatRobin(5);
         repeatNewAgent(5);
     }
+*/
 
 
-/* 
     public static void runAllWeightConfigs() {
-        float[] jumpWeights = {0.5f, -0.5f};
-        float[] winWeights = {1.0f, -1.0f};
-        float[] loseWeights = {20.0f, -20.0f};
+        float[] killWeights = {-50.0f, 50.0f};
+        float[] collectWeights = {-40.0f, 40.0f};
+        float[] jumpWeights = {-30.0f, 30.0f};
+        float[] timeWeights = {-30.0f, 30.0f};
+        float[] winWeights = {-100.0f, 100.0f};
+        float[] loseWeights = {-100.0f, 100.0f};
 
         int count = 1;
 
-        for (float jw : jumpWeights) {
-            for (float ww : winWeights) {
-                for (float lw : loseWeights) {
-                    System.out.println("\n[" + count + "/8] Running weights: jump=" + jw + ", win=" + ww + ", lose=" + lw);
-                    writeWeights(jw, ww, lw);
+        for (float kw: killWeights){
+            for (float cw: collectWeights){
+                for (float jw: jumpWeights){
+                    for (float tw: timeWeights){
+                        for (float ww: winWeights){
+                            for (float lw: loseWeights){
+                                System.out.println("\n[" + count + "] Running weights: kill=" + kw + ", collect=" + cw + ", jump=" + jw + ", time=" + tw + ", win=" + ww + ", lose=" + lw);
+                                writeWeights(kw, cw, jw, tw, ww, lw);
 
-                    // 로그 저장
-                    try {
-                        PrintStream out = new PrintStream("logs/output_" + count + ".txt");
-                        PrintStream originalOut = System.out;
-                        System.setOut(out);
+                                // 로그 저장
+                                try {
+                                    PrintStream out = new PrintStream("logs/output_" + count + ".txt");
+                                    PrintStream originalOut = System.out;
+                                    System.setOut(out);
 
-                        repeatNewAgent(5);
+                                    repeatNewAgent(1);
 
-                        System.setOut(originalOut);
-                    } catch (IOException e) {
-                        System.out.println("⚠ Failed to write log file.");
-                        e.printStackTrace();
+                                    System.setOut(originalOut);
+                                } catch (IOException e) {
+                                    System.out.println("⚠ Failed to write log file.");
+                                    e.printStackTrace();
+                                }
+
+                                count++;
+
+                            }
+                        }
                     }
-
-                    count++;
                 }
             }
         }
     }
 
-    public static void writeWeights(float jump, float win, float lose) {
+    public static void writeWeights(float kill, float collect, float jump, float time, float win, float lose) {
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter("config/weights.txt"));
+            writer.write("killWeight=" + kill + "\n");
+            writer.write("collectWeight=" + collect + "\n");
             writer.write("jumpWeight=" + jump + "\n");
+            writer.write("timeWeight=" + time + "\n");
             writer.write("winWeight=" + win + "\n");
             writer.write("loseWeight=" + lose + "\n");
             writer.close();
@@ -276,7 +289,5 @@ public class PlayLevel {
     public static void main(String[] args) {
         runAllWeightConfigs();  // 여기에만 작성하세요
     }
-*/
-}
 
-// on branch grid_search
+}

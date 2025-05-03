@@ -4,7 +4,10 @@ import engine.core.MarioForwardModel;
 import engine.core.MarioTimer;
 import engine.helper.GameStatus;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class AStarTree {
     public SearchNode bestPosition;
@@ -14,10 +17,41 @@ public class AStarTree {
     ArrayList<int[]> visitedStates = new ArrayList<int[]>();
     private boolean requireReplanning = false;
 
+    private float killWeight = -50;
+    private float collectWeight = -40;
+    private float jumpWeight = -30;
+    private float timeWeight = -30;
+    private float winWeight = -100;
+    private float loseWeight = -100;
+
     private ArrayList<boolean[]> currentActionPlan;
     int ticksBeforeReplanning = 0;
     public int SearchedStates = 0;
     public int SearchedLose = 0;
+
+    public AStarTree() {
+        try {
+            Properties props = new Properties();
+            props.load(new FileReader("config/weights.txt"));
+
+            if (props.getProperty("killWeight") != null)
+                killWeight = Float.parseFloat(props.getProperty("killWeight"));
+            if (props.getProperty("collectWeight") != null)
+                collectWeight = Float.parseFloat(props.getProperty("collectWeight"));
+            if (props.getProperty("jumpWeight") != null)
+                jumpWeight = Float.parseFloat(props.getProperty("jumpWeight"));
+            if (props.getProperty("timeWeight") != null)
+                timeWeight = Float.parseFloat(props.getProperty("timeWeight"));
+            if (props.getProperty("winWeight") != null)
+                winWeight = Float.parseFloat(props.getProperty("winWeight"));
+            if (props.getProperty("loseWeight") != null)
+                loseWeight = Float.parseFloat(props.getProperty("loseWeight"));
+
+        } catch (IOException e) {
+            System.out.println("⚠ weights.txt 읽기 실패, 기본값 사용");
+        }
+    }
+
     private MarioForwardModel search(MarioTimer timer) {
         SearchNode current = bestPosition;
         boolean currentGood = false;
@@ -122,7 +156,12 @@ public class AStarTree {
                     SearchedLose++;
                 }
             }
-            float currentCost = -50 * current.getkillrate() -40 * current.getCollectRate() -30 * current.getJumpTimeRatio() +30 * current.getRemainingTimeRatio() -100 * current.ifWin() +100 * current.ifLose();
+            float currentCost = killWeight * current.getkillrate() 
+            + collectWeight * current.getCollectRate() 
+            + jumpWeight * current.getJumpTimeRatio() 
+            + timeWeight * current.getRemainingTimeRatio() 
+            + winWeight * current.ifWin() 
+            + loseWeight * current.ifLose();
             //System.out.println("Mario killed: " + current.getkilled() + " CurrentCost: "+ currentCost);
             if (currentCost < bestPosCost) {
                 bestPos = current;

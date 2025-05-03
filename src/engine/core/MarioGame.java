@@ -96,7 +96,7 @@ public class MarioGame {
      * @return statistics about the current game
      */
     public MarioResult playGame(String level, int timer) {
-        return this.runGame(new Agent(), level, timer, 0, true, true, 200);
+        return this.runGame(new Agent(), level, timer, 0, false, true, 200);
     }
 
     /**
@@ -108,7 +108,7 @@ public class MarioGame {
      * @return statistics about the current game
      */
     public MarioResult playGame(String level, int timer, int marioState) {
-        return this.runGame(new Agent(), level, timer, marioState, true, true, 200);
+        return this.runGame(new Agent(), level, timer, marioState, false, true, 200);
     }
 
     /**
@@ -121,7 +121,7 @@ public class MarioGame {
      * @return statistics about the current game
      */
     public MarioResult playGame(String level, int timer, int marioState, int fps) {
-        return this.runGame(new Agent(), level, timer, marioState, true, true, 200);
+        return this.runGame(new Agent(), level, timer, marioState, false, true, 200);
     }
 
     /**
@@ -135,7 +135,7 @@ public class MarioGame {
      * @return statistics about the current game
      */
     public MarioResult playGame(String level, int timer, int marioState, int fps, float scale) {
-        return this.runGame(new Agent(), level, timer, marioState, true, fps, true, 200);
+        return this.runGame(new Agent(), level, timer, marioState, false, fps, true, 200);
     }
 
     /**
