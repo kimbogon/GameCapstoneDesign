@@ -243,7 +243,12 @@ public class PlayLevel {
                     for (float tw: timeWeights){
                         for (float ww: winWeights){
                             for (float lw: loseWeights){
-                                System.out.println("\n[" + count + "] Running weights: kill=" + kw + ", collect=" + cw + ", jump=" + jw + ", time=" + tw + ", win=" + ww + ", lose=" + lw);
+                                System.out.println("\n[" + count + "] Running weights: kill=" + kw 
+                                + ", collect=" + cw 
+                                + ", jump=" + jw 
+                                + ", time=" + tw 
+                                + ", win=" + ww 
+                                + ", lose=" + lw);
                                 writeWeights(kw, cw, jw, tw, ww, lw);
 
                                 // 로그 저장
