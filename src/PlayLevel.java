@@ -222,7 +222,7 @@ public class PlayLevel {
         // repeatCollector(5);
         // repeatKiller(5);
         // repeatRobin(5);
-        repeatNewAgent(5);
+        repeatNewAgent(1);
     }
 
 
