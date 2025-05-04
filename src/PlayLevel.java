@@ -142,7 +142,7 @@ public class PlayLevel {
      */
     public static void repeatNewAgent(int times) {
         String part_filepath = "levels/original/lvl-";
-        for(int j=1; j<=1; j++) {
+        for(int j=1; j<=5; j++) {
             String full_filepath = part_filepath + j + ".txt";
             float completion = 0;
             float total_kill = 0;
