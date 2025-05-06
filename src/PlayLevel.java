@@ -142,6 +142,9 @@ public class PlayLevel {
      */
     public static void repeatNewAgent(int times) {
         String part_filepath = "levels/original/lvl-";
+
+        float[] total = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
         for(int j=1; j<=9; j+=2) {
             String full_filepath = part_filepath + j + ".txt";
             float completion = 0;
@@ -212,7 +215,43 @@ public class PlayLevel {
             System.out.println("shell_kill : " + shell_kill);
             System.out.println("bricks : " + bricks);
             System.out.println("jumps : " + jumps);
+
+            total[0] += completion;
+            total[1] += total_kill;
+            total[2] += (total_kill - fall_kill);
+            total[3] += coins;
+            total[4] += lives;
+            total[5] += remaining_time;
+            total[6] += mariostate;
+            total[7] += mushrooms;
+            total[8] += fireflowers;
+            total[9] += stomp_kill;
+            total[10] += fire_kill;
+            total[11] += shell_kill;
+            total[12] += bricks;
+            total[13] += jumps;
         }
+
+        for (int i=0; i<14; i++){
+            total[i] /= 5;
+        }
+        
+        System.out.println("========total=======");
+        System.out.println("completion : " + total[0]);
+        System.out.println("total_kill : " + total[1]);
+        System.out.println("kill : " + total[2]);
+        System.out.println("coins : " + total[3]);
+
+        System.out.println("lives : " + total[4]);
+        System.out.println("remaining_time : " + total[5]);
+        System.out.println("mariostate : " + total[6]);
+        System.out.println("mushrooms : " + total[7]);
+        System.out.println("fireflowers : " + total[8]);
+        System.out.println("stomp_kill : " + total[9]);
+        System.out.println("fire_kill : " + total[10]);
+        System.out.println("shell_kill : " + total[11]);
+        System.out.println("bricks : " + total[12]);
+        System.out.println("jumps : " + total[13]);
     }
 
 /* 

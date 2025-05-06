@@ -1,0 +1,95 @@
+4475155 0
+========level 1=======
+completion : 0.21681103
+total_kill : 1.0
+kill : 1.0
+coins : 6.0
+lives : 0.0
+remaining_time : 0.0
+mariostate : 1.0
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 1.0
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 93.0
+4928701 93802
+========level 3=======
+completion : 0.12082991
+total_kill : 0.0
+kill : 0.0
+coins : 0.0
+lives : 0.0
+remaining_time : 1.0
+mariostate : 1.0
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 0.0
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 77.0
+4241408 14499
+========level 5=======
+completion : 0.18958475
+total_kill : 1.0
+kill : 1.0
+coins : 0.0
+lives : 0.0
+remaining_time : 0.0
+mariostate : 1.0
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 1.0
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 91.0
+2918516 1457746
+========level 7=======
+completion : 0.3327633
+total_kill : 0.0
+kill : 0.0
+coins : 7.0
+lives : 0.0
+remaining_time : 21.0
+mariostate : 0.0
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 0.0
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 58.0
+4861102 1687774
+========level 9=======
+completion : 0.23024288
+total_kill : 6.0
+kill : 6.0
+coins : 0.0
+lives : 0.0
+remaining_time : 0.0
+mariostate : 1.0
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 6.0
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 88.0
+========total=======
+completion : 0.21804638
+total_kill : 1.6
+kill : 1.6
+coins : 2.6
+lives : 0.0
+remaining_time : 4.4
+mariostate : 0.8
+mushrooms : 0.0
+fireflowers : 0.0
+stomp_kill : 1.6
+fire_kill : 0.0
+shell_kill : 0.0
+bricks : 0.0
+jumps : 81.4
