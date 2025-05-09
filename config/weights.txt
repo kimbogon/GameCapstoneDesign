@@ -1,6 +1,6 @@
-killWeight=50.0
-collectWeight=40.0
-jumpWeight=30.0
-timeWeight=30.0
-winWeight=100.0
-loseWeight=100.0
+killWeight=-1.0
+collectWeight=-1.0
+jumpWeight=0.0
+timeWeight=-1.0
+winWeight=-10.0
+loseWeight=10.0

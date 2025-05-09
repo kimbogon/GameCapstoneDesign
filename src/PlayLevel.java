@@ -3,6 +3,7 @@ import engine.core.MarioResult;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -267,12 +268,12 @@ public class PlayLevel {
 
 
     public static void runAllWeightConfigs() {
-        float[] killWeights = {-50.0f, 50.0f};
-        float[] collectWeights = {-40.0f, 40.0f};
-        float[] jumpWeights = {-30.0f, 30.0f};
-        float[] timeWeights = {-30.0f, 30.0f};
-        float[] winWeights = {-100.0f, 100.0f};
-        float[] loseWeights = {-100.0f, 100.0f};
+        float[] killWeights = {-1.0f};
+        float[] collectWeights = {-1.0f};
+        float[] jumpWeights = {-3.0f, -1.0f, 0.0f};
+        float[] timeWeights = {-1.0f};
+        float[] winWeights = {-10.0f};
+        float[] loseWeights = {10.0f};
 
         int count = 1;
 
