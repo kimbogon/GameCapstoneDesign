@@ -1,15 +1,11 @@
 import engine.core.MarioGame;
 import engine.core.MarioResult;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Properties;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class PlayLevel {
     public static void printResults(MarioResult result) {
@@ -124,50 +120,36 @@ public class PlayLevel {
         }
     }
 
-    /*
-    public static void printResults(MarioResult result) {
-        System.out.println("****************************************************************");
-        System.out.println("Game Status: " + result.getGameStatus().toString() +
-                " Percentage Completion: " + result.getCompletionPercentage());
-        System.out.println("Lives: " + result.getCurrentLives() + " Coins: " + result.getCurrentCoins() +
-                " Remaining Time: " + (int) Math.ceil(result.getRemainingTime() / 1000f));
-        System.out.println("Mario State: " + result.getMarioMode() +
-                " (Mushrooms: " + result.getNumCollectedMushrooms() + " Fire Flowers: " + result.getNumCollectedFireflower() + ")");
-        System.out.println("Total Kills: " + result.getKillsTotal() + " (Stomps: " + result.getKillsByStomp() +
-                " Fireballs: " + result.getKillsByFire() + " Shells: " + result.getKillsByShell() +
-                " Falls: " + result.getKillsByFall() + ")");
-        System.out.println("Bricks: " + result.getNumDestroyedBricks() + " Jumps: " + result.getNumJumps() +
-                " Max X Jump: " + result.getMaxXJump() + " Max Air Time: " + result.getMaxJumpAirTime());
-        System.out.println("****************************************************************");
+    public static float[] readWeights() {
+        float[] weights = new float[6]; // kill, collect, jump, time, win, lose
+        try {
+            Properties props = new Properties();
+            props.load(new FileReader("config/weights.txt"));
+            weights[0] = Float.parseFloat(props.getProperty("killWeight", "0"));
+            weights[1] = Float.parseFloat(props.getProperty("collectWeight", "0"));
+            weights[2] = Float.parseFloat(props.getProperty("jumpWeight", "0"));
+            weights[3] = Float.parseFloat(props.getProperty("timeWeight", "0"));
+            weights[4] = Float.parseFloat(props.getProperty("winWeight", "0"));
+            weights[5] = Float.parseFloat(props.getProperty("loseWeight", "0"));
+        } catch (IOException e) {
+            System.out.println("⚠ weights.txt 읽기 실패");
+        }
+        return weights;
     }
-     */
-    public static void repeatNewAgent(int times) {
+
+    public static void repeatNewAgent(int times, BufferedWriter writer) throws IOException {
         String part_filepath = "levels/original/lvl-";
+        float[] weights = readWeights();
 
-        float[] total = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-        for(int j=1; j<=9; j+=2) {
-            String full_filepath = part_filepath + j + ".txt";
-            float completion = 0;
-            float total_kill = 0;
-            float fall_kill = 0;
-            float coins = 0;
-
-            float lives = 0;
-            float remaining_time = 0;
-            float mariostate = 0;
-            float mushrooms = 0;
-            float fireflowers = 0;
-            float stomp_kill = 0;
-            float fire_kill = 0;
-            float shell_kill = 0;
-            float bricks = 0;
-            float jumps = 0;
+        for (int j = 1; j <= 9; j += 2) {
+            float completion = 0, total_kill = 0, fall_kill = 0, coins = 0;
+            float lives = 0, remaining_time = 0, mariostate = 0, mushrooms = 0, fireflowers = 0;
+            float stomp_kill = 0, fire_kill = 0, shell_kill = 0, bricks = 0, jumps = 0;
 
             for (int i = 0; i < times; i++) {
                 MarioGame game = new MarioGame();
-                // printResults(game.playGame(getLevel("../levels/original/lvl-1.txt"), 200, 0));
-                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(full_filepath), 50, 1, false);
+                MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(part_filepath + j + ".txt"), 50, 1, false);
+
                 completion += result.getCompletionPercentage();
                 total_kill += result.getKillsTotal();
                 fall_kill += result.getKillsByFall();
@@ -184,88 +166,21 @@ public class PlayLevel {
                 bricks += result.getNumDestroyedBricks();
                 jumps += result.getNumJumps();
             }
-            completion /= times;
-            total_kill /= times;
-            fall_kill /= times;
-            coins /= times;
 
-            lives /= times;
-            remaining_time /= times;
-            mariostate /= times;
-            mushrooms /= times;
-            fireflowers /= times;
-            stomp_kill /= times;
-            fire_kill /= times;
-            shell_kill /= times;
-            bricks /= times;
-            jumps /= times;
+            // 평균 계산
+            completion /= times; total_kill /= times; fall_kill /= times; coins /= times;
+            lives /= times; remaining_time /= times; mariostate /= times;
+            mushrooms /= times; fireflowers /= times;
+            stomp_kill /= times; fire_kill /= times; shell_kill /= times;
+            bricks /= times; jumps /= times;
 
-            System.out.println("========level " + j +"=======");
-            System.out.println("completion : " + completion);
-            System.out.println("total_kill : " + total_kill);
-            System.out.println("kill : " + (total_kill - fall_kill));
-            System.out.println("coins : " + coins);
-
-            System.out.println("lives : " + lives);
-            System.out.println("remaining_time : " + remaining_time);
-            System.out.println("mariostate : " + mariostate);
-            System.out.println("mushrooms : " + mushrooms);
-            System.out.println("fireflowers : " + fireflowers);
-            System.out.println("stomp_kill : " + stomp_kill);
-            System.out.println("fire_kill : " + fire_kill);
-            System.out.println("shell_kill : " + shell_kill);
-            System.out.println("bricks : " + bricks);
-            System.out.println("jumps : " + jumps);
-
-            total[0] += completion;
-            total[1] += total_kill;
-            total[2] += (total_kill - fall_kill);
-            total[3] += coins;
-            total[4] += lives;
-            total[5] += remaining_time;
-            total[6] += mariostate;
-            total[7] += mushrooms;
-            total[8] += fireflowers;
-            total[9] += stomp_kill;
-            total[10] += fire_kill;
-            total[11] += shell_kill;
-            total[12] += bricks;
-            total[13] += jumps;
+            // CSV 한 줄 출력
+            writer.write(weights[0] + "," + weights[1] + "," + weights[2] + "," + weights[3] + "," + weights[4] + "," + weights[5] + ","
+                    + j + "," + completion + "," + total_kill + "," + (total_kill - fall_kill) + "," + coins + ","
+                    + lives + "," + remaining_time + "," + mariostate + "," + mushrooms + "," + fireflowers + ","
+                    + stomp_kill + "," + fire_kill + "," + shell_kill + "," + bricks + "," + jumps + "\n");
         }
-
-        for (int i=0; i<14; i++){
-            total[i] /= 5;
-        }
-        
-        System.out.println("========total=======");
-        System.out.println("completion : " + total[0]);
-        System.out.println("total_kill : " + total[1]);
-        System.out.println("kill : " + total[2]);
-        System.out.println("coins : " + total[3]);
-
-        System.out.println("lives : " + total[4]);
-        System.out.println("remaining_time : " + total[5]);
-        System.out.println("mariostate : " + total[6]);
-        System.out.println("mushrooms : " + total[7]);
-        System.out.println("fireflowers : " + total[8]);
-        System.out.println("stomp_kill : " + total[9]);
-        System.out.println("fire_kill : " + total[10]);
-        System.out.println("shell_kill : " + total[11]);
-        System.out.println("bricks : " + total[12]);
-        System.out.println("jumps : " + total[13]);
     }
-
-/* 
-    public static void main(String[] args) {
-        MarioGame game = new MarioGame();
-        // printResults(game.runGame(new agents.collector.Agent(), getLevel("../levels/original/lvl-1.txt"), 50, 0, true));
-        // repeatCollector(5);
-        // repeatKiller(5);
-        // repeatRobin(5);
-        repeatNewAgent(5);
-    }
-*/
-
 
     public static void runAllWeightConfigs() {
         float[] killWeights = {-1.0f};
@@ -277,41 +192,33 @@ public class PlayLevel {
 
         int count = 1;
 
-        for (float kw: killWeights){
-            for (float cw: collectWeights){
-                for (float jw: jumpWeights){
-                    for (float tw: timeWeights){
-                        for (float ww: winWeights){
-                            for (float lw: loseWeights){
-                                System.out.println("\n[" + count + "] Running weights: kill=" + kw 
-                                + ", collect=" + cw 
-                                + ", jump=" + jw 
-                                + ", time=" + tw 
-                                + ", win=" + ww 
-                                + ", lose=" + lw);
-                                writeWeights(kw, cw, jw, tw, ww, lw);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("logs/results.csv"))) {
+            // CSV 헤더
+            writer.write("killWeight,collectWeight,jumpWeight,timeWeight,winWeight,loseWeight,"
+                    + "level,completion,total_kill,kill,coins,"
+                    + "lives,remaining_time,mariostate,mushrooms,fireflowers,"
+                    + "stomp_kill,fire_kill,shell_kill,bricks,jumps\n");
 
-                                // 로그 저장
-                                try {
-                                    PrintStream out = new PrintStream("logs/output_" + count + ".txt");
-                                    PrintStream originalOut = System.out;
-                                    System.setOut(out);
-
-                                    repeatNewAgent(1);
-
-                                    System.setOut(originalOut);
-                                } catch (IOException e) {
-                                    System.out.println("⚠ Failed to write log file.");
-                                    e.printStackTrace();
+            for (float kw : killWeights) {
+                for (float cw : collectWeights) {
+                    for (float jw : jumpWeights) {
+                        for (float tw : timeWeights) {
+                            for (float ww : winWeights) {
+                                for (float lw : loseWeights) {
+                                    System.out.println("[" + count + "] Running weights: kill=" + kw + ", collect=" + cw + ", jump=" + jw + ", time=" + tw + ", win=" + ww + ", lose=" + lw);
+                                    writeWeights(kw, cw, jw, tw, ww, lw);
+                                    repeatNewAgent(1, writer);
+                                    count++;
                                 }
-
-                                count++;
-
                             }
                         }
                     }
                 }
             }
+
+        } catch (IOException e) {
+            System.out.println("⚠ CSV 파일 저장 실패");
+            e.printStackTrace();
         }
     }
 
@@ -328,11 +235,10 @@ public class PlayLevel {
         } catch (IOException e) {
             System.out.println("⚠ Failed to write weights.txt");
             e.printStackTrace();
-        }   
+        }
     }
 
     public static void main(String[] args) {
-        runAllWeightConfigs();  // 여기에만 작성하세요
+        runAllWeightConfigs();
     }
-
 }
