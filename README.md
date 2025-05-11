@@ -69,7 +69,7 @@ private SearchNode pickBestPos(ArrayList<SearchNode> posPool) {
 java PlayLevel.java
 ```
 
-**branch grid_search**
+**branch grid_search_csv**
 
 여러 에이전트를 이용해 테스트를 순차적으로 진행한 후, 가중치 조합과 플레이 로그를 csv 파일로 출력한다. 한 에이전트의 테스트가 끝나면 에이전트의 가중치가 자동으로 갱신된 후 테스트를 반복한다. 모든 에이전트의 테스트가 끝나면 코드가 종료되고, 출력된 csv 파일은 /logs 폴더에서 확인할 수 있다. 에이전트의 플레이 화면은 제공되지 않는다.
 
