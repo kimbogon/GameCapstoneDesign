@@ -145,7 +145,7 @@ public class PlayLevel {
 
         float[] total = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-        for(int j=1; j<=15; j++) {
+        for(int j=1; j<=15; j++) { // 플레이할 레벨 설정
             String full_filepath = part_filepath + j + ".txt";
             float completion = 0;
             float total_kill = 0;
@@ -163,7 +163,7 @@ public class PlayLevel {
             float bricks = 0;
             float jumps = 0;
 
-            for (int i = 0; i < times; i++) {
+            for (int i = 0; i < times; i++) { 
                 MarioGame game = new MarioGame();
                 // printResults(game.playGame(getLevel("../levels/original/lvl-1.txt"), 200, 0));
                 MarioResult result = game.runGame(new agents.collector.Agent(), getLevel(full_filepath), 50, 1, true);
@@ -261,7 +261,7 @@ public class PlayLevel {
         // repeatCollector(5);
         // repeatKiller(5);
         // repeatRobin(5);
-        repeatNewAgent(1);
+        repeatNewAgent(1); // 레벨당 반복 횟수 설정
     }
 
 
