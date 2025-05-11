@@ -141,12 +141,13 @@ public class PlayLevel {
         String part_filepath = "levels/original/lvl-";
         float[] weights = readWeights();
 
-        for (int j = 1; j <= 9; j += 2) {
-            float completion = 0, total_kill = 0, fall_kill = 0, coins = 0;
-            float lives = 0, remaining_time = 0, mariostate = 0, mushrooms = 0, fireflowers = 0;
-            float stomp_kill = 0, fire_kill = 0, shell_kill = 0, bricks = 0, jumps = 0;
+        float completion = 0, total_kill = 0, fall_kill = 0, coins = 0;
+        float lives = 0, remaining_time = 0, mariostate = 0, mushrooms = 0, fireflowers = 0;
+        float stomp_kill = 0, fire_kill = 0, shell_kill = 0, bricks = 0, jumps = 0;
 
-            for (int i = 0; i < times; i++) {
+        for (int j = 1; j <= 9; j += 2) { // 플레이할 레벨 설정
+
+            for (int i = 0; i < times; i++) { // 레벨당 반복 횟수 설정
                 MarioGame game = new MarioGame();
                 MarioResult result = game.runGame(new agents.newagent.Agent(), getLevel(part_filepath + j + ".txt"), 50, 1, false);
 
@@ -166,27 +167,29 @@ public class PlayLevel {
                 bricks += result.getNumDestroyedBricks();
                 jumps += result.getNumJumps();
             }
-
-            // 평균 계산
-            completion /= times; total_kill /= times; fall_kill /= times; coins /= times;
-            lives /= times; remaining_time /= times; mariostate /= times;
-            mushrooms /= times; fireflowers /= times;
-            stomp_kill /= times; fire_kill /= times; shell_kill /= times;
-            bricks /= times; jumps /= times;
-
-            // CSV 한 줄 출력
-            writer.write(weights[0] + "," + weights[1] + "," + weights[2] + "," + weights[3] + "," + weights[4] + "," + weights[5] + ","
-                    + j + "," + completion + "," + total_kill + "," + (total_kill - fall_kill) + "," + coins + ","
-                    + lives + "," + remaining_time + "," + mariostate + "," + mushrooms + "," + fireflowers + ","
-                    + stomp_kill + "," + fire_kill + "," + shell_kill + "," + bricks + "," + jumps + "\n");
         }
+        // 평균 계산
+        int test_levels = 5;
+        completion /= times*test_levels; total_kill /= times*test_levels; fall_kill /= times*test_levels; coins /= times*test_levels;
+        lives /= times*test_levels; remaining_time /= times*test_levels; mariostate /= times*test_levels;
+        mushrooms /= times*test_levels; fireflowers /= times*test_levels;
+        stomp_kill /= times*test_levels; fire_kill /= times*test_levels; shell_kill /= times*test_levels;
+        bricks /= times*test_levels; jumps /= times*test_levels;
+
+        // CSV 한 줄 출력
+        writer.write(weights[0] + "," + weights[1] + "," + weights[2] + "," + weights[3] + "," + weights[4] + "," + weights[5] + ","
+                + completion + "," + total_kill + "," + (total_kill - fall_kill) + "," + coins + ","
+                + lives + "," + remaining_time + "," + mariostate + "," + mushrooms + "," + fireflowers + ","
+                + stomp_kill + "," + fire_kill + "," + shell_kill + "," + bricks + "," + jumps + "\n");
+        writer.flush();
     }
 
     public static void runAllWeightConfigs() {
-        float[] killWeights = {-1.0f};
-        float[] collectWeights = {-1.0f};
+        // 가중치 조합 설정
+        float[] killWeights = {-3.0f, -1.0f, 0.0f, 1.0f, 3.0f};
+        float[] collectWeights = {-3.0f, -1.0f, 0.0f, 1.0f, 3.0f};
         float[] jumpWeights = {-3.0f, -1.0f, 0.0f};
-        float[] timeWeights = {-1.0f};
+        float[] timeWeights = {-3.0f, -1.0f, 0.0f};
         float[] winWeights = {-10.0f};
         float[] loseWeights = {10.0f};
 
@@ -195,7 +198,7 @@ public class PlayLevel {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("logs/results.csv"))) {
             // CSV 헤더
             writer.write("killWeight,collectWeight,jumpWeight,timeWeight,winWeight,loseWeight,"
-                    + "level,completion,total_kill,kill,coins,"
+                    + "completion,total_kill,kill,coins,"
                     + "lives,remaining_time,mariostate,mushrooms,fireflowers,"
                     + "stomp_kill,fire_kill,shell_kill,bricks,jumps\n");
 
