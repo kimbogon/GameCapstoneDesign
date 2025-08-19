@@ -18,44 +18,44 @@ newagent 에이전트의 비용 함수는 `EngagementMetrics\Mario-AI-Framework\
 
 ### java 파일 수정
 특정 java 파일을 수정했을 경우 아래의 명령어로 컴파일한다.
-'''
+```
 // EngagementMetrics\Mario-AI-Framework\src 내의 모든 java 파일들을 컴파일
 // EngagementMetrics\Mario-AI-Framework\src 디렉토리에서 실행
 
 javac -cp . -d bin $(Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })
-'''
+```
 
 ### PlayLevel.java
-'''
+```
 java -cp bin PlayLevel
-'''
+```
 
 `newagent`로 게임을 플레이한다. 한 레벨 플레이를 마칠 때마다 플레이 로그가 터미널에 출력된다.
 
 **플레이할 레벨** 은 `EngagementMetrics\Mario-AI-Framework\src\PlayLevel.java` 의 `repeatNewAgent` 함수에서 수정할 수 있다. 레벨 파일은 `EngagementMetrics\Mario-AI-Framework\levels\original`에 저장되어 있고, 1부터 15까지의 레벨이 있다.
-'''
+```
 for(int j=1; j<=15; j++) { // 플레이할 레벨 설정, 현재는 1레벨부터 15레벨까지 플레이함
-'''
+```
 
 **레벨당 반복 횟수** 는 `EngagementMetrics\Mario-AI-Framework\src\PlayLevel.java` 의 `main` 함수에서 수정할 수 있다. `times` 변수가 레벨당 반복 횟수를 의미한다.
-'''
+```
 repeatNewAgent(1); // 레벨당 반복 횟수 설정, 현재는 레벨당 1회 플레이함
-'''
+```
 
 **에이전트 비용 함수의 가중치** 는 `EngagementMetrics\Mario-AI-Framework\src\agents\newagent\AStarTree.java` 에서 수정할 수 있다.
-'''
+```
 private float killWeight = -50;
 private float collectWeight = -40;
 private float jumpWeight = -30;
 private float timeWeight = -30;
 private float winWeight = -100;
 private float loseWeight = +100;
-'''
+```
 
 ### AgentTest.java
-'''
+```
 java -cp bin AgentTest
-'''
+```
 
 가중치 조합이 다른 여러 에이전트를 이용해 테스트를 순차적으로 진행한 후, 가중치 조합과 플레이 로그를 csv 파일로 출력한다. 한 에이전트의 테스트가 끝나면, 에이전트의 가중치가 자동으로 갱신된 후 테스트를 반복한다. 모든 에이전트의 테스트가 끝나면 실행이 종료되고, 출력된 csv 파일은 `EngagementMetrics/Mario-AI-Framework/src/logs/results.csv` 폴더에서 확인할 수 있다.
 
@@ -63,12 +63,12 @@ java -cp bin AgentTest
 
 **레벨당 반복 횟수** 는 `EngagementMetrics\Mario-AI-Framework\src\AgentTest.java` 의 `runAllWeightConfigs` 함수에서 수정할 수 있다.
 
-'''
+```
 repeatNewAgent(1, writer); // csv 파일에 플레이 로그를 작성, 레벨당 반복 횟수 설정
-'''
+```
 
 **에이전트 비용 함수의 가중치 조합** 은 `EngagementMetrics\Mario-AI-Framework\src\AgentTest.java` 의 `runAllWeightConfigs` 함수에서 수정할 수 있다. 아래의 코드에서는 6개 지표에 대해서 각각 5개, 5개, 3개, 3개, 1개, 1개의 가중치가 사용되었으므로, 총 5 * 5 * 3 * 3 = 225 가지의 서로 다른 에이전트로 테스트를 진행한다.
-'''
+```
 public static void runAllWeightConfigs() {
         // AStarTree.java 파일의 비용 함수에 대입할 가중치 조합을 설정
         float[] killWeights = {-3.0f, -1.0f, 0.0f, 1.0f, 3.0f};
@@ -77,4 +77,4 @@ public static void runAllWeightConfigs() {
         float[] timeWeights = {-3.0f, -1.0f, 0.0f};
         float[] winWeights = {-10.0f};
         float[] loseWeights = {10.0f};
-'''
+```

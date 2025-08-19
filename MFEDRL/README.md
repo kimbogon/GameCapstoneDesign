@@ -10,7 +10,7 @@ MFEDRL 논문에 따르면, 플레이어가 느끼는 재미에 영향을 주는
 
 ### Python 가상환경 구축
 Anaconda 가상환경을 생성한 후 다음의 명령어들을 통해 패키지를 설치한다.
-'''
+```
 python -m pip install pip==24.0
 pip install “setuptools<60”
 pip install JPype1==1.3.0 pygame==2.0.1 dtw==1.4.0 scipy==1.7.2 numpy==1.20.3 pandas==1.3.5 matplotlib==3.4.3
@@ -18,11 +18,11 @@ python -m pip install tk
 pip install stable-baselines3==1.3.0 --no-deps
 pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html
 pip download gym==0.21.0
-'''
+```
 
 ### 강화학습
 학습에 앞서 `MFEDRL\smb.py` 의 `MarioProxy` 클래스에서 학습에 사용할 jar 파일을 지정한다. 
-'''
+```
 class MarioProxy:
     # __jmario = jpype.JClass("MarioProxy")()
 
@@ -32,12 +32,12 @@ class MarioProxy:
                 jpype.getDefaultJVMPath() if JVMPath is None else JVMPath,
                 f"-Djava.class.path={PRJROOT}Mario-AI-Framework_agent0.jar", '-Xmx2g' # 여기서 jar 파일명 수정
             )
-'''
+```
 
 다음 명령어로 강화학습을 진행한다. 
-'''
+```
 python train.py designer 
-'''
+```
 명령어 뒤에 추가적으로 변수를 입력하여 학습 설정을 할 수 있다.
 | 명령어 | 설명 |
 |-------|------|
@@ -53,25 +53,25 @@ python train.py designer
 
 ### 레벨 생성
 `MFEDRL\exp_analysis\endless_gen\generate.py` 에서 학습이 완료된 모델로 레벨을 생성한다. 다음 코드에서 설정을 변경할 수 있다. 
-'''
+```
 generate_levels(
         Designer('exp_data/agent0/actor.pth'), # 레벨 생성기 모델이 저장된 경로
         'exp_data/agent0/levels/agent0Levels', # 레벨 파일을 저장할 경로
         100, 50, 10, True                      # 레벨 개수, 각 레벨의 길이, 한 번에 병렬적으로 생성할 레벨의 개수, repair 여부
     )
-'''
+```
 
 다음 명령어로 레벨을 생성한다.
-'''
+```
 python generate.py
-'''
+```
 
 레벨 생성이 완료되면 지정한 경로의 폴더에서 레벨 텍스트 파일 `agent0Levels.smblvs` 가 생성된 것을 확인할 수 있다.
 
 ### 레벨 이미지 생성
 `MFEDRL\convert_to_img.py` 에서 레벨 텍스트 파일이 저장된 경로와 이미지 파일이 생성될 경로를 입력한다.
 
-'''
+```
 #레벨 불러오기
 with open("exp_analysis/endless_gen/data/agent0Levels_copy_1.smblvs", "r") as f:
     content = f.read()
@@ -79,37 +79,39 @@ levels = [MarioLevel(c) for c in content.split("\n;\n")]
 
 #첫 번째 레벨을 이미지로 저장
 levels[0].to_img('exp_analysis/endless_gen/data/agent0Levels.png')
-'''
+```
 
 다음 명령어를 실행하면 지정된 경로에 이미지 파일 `agent0Levels.png`가 생성된다.
-'''
+```
 python convert_to_img.py
-'''
-![레벨 이미지](exp_data\agent0\levels\agent0Levels_1.png)
+```
+![레벨 이미지](exp_data/agent0/levels/agent0Levels_1.png)
 
 ### 레벨 성능 평가
 
 **NCD 측정**
+
 NCD(Normalized Compression Distance)는 두 문자열 간 유사도를 측정하는 지표로, 0에 가까울수록 두 문자열 간 유사도가 높고, 1에 가까울수록 유사도가 낮다는 의미이다. 본 프로젝트에서는 강화학습이 완료된 레벨 생성기가 레벨 다양성을 확보하는지 확인하기 위해 NCD를 측정하였다. `MFEDRL\NCD\ncd.py` 는 레벨 텍스트 파일(.smblvs)를 문자열(.txt)로 변환한 후 NCD를 측정한다. 
 
 먼저 `agent0Levels.smblvs`에 저장된 100개 레벨 중 상단의 5개 레벨을 복사하여 `agent0Levels_copy_1_smblvs` ~ `agent0Levels_copy_5_smblvs` 파일을 생성하였다. 다음 명령어를 실행하면 5개 레벨 중 임의로 2개 레벨을 뽑아 측정한 NCD 값을 확인할 수 있다.
-'''
+```
 python ncd.py
-'''
+```
 
 `ncd.py` 는 적과 아이템(코인, 아이템 블록)의 유무를 기준으로, `ncd2.py` 는 구멍의 유무를 기준으로 문자열을 생성한다.  
 
 
 **레벨 내 주요 요소 측정**
+
 레벨 생성기 간 생성되는 레벨의 차이점을 분석하기 위해, 레벨 내의 게임 요소(적, 아이템, 구멍 등)의 개수를 측정하는 코드이다. 
 
 `count.py`에 측정을 원하는 레벨 텍스트 파일 경로를 입력한다.
-'''
+```
 #레벨 텍스트 파일 경로
 file_path = "exp_data/agent0/levels/agent0Levels.smblvs"
-'''
+```
 
 다음 명령어를 실행하면 터미널 창에 각 문자의 개수가 출력된다. `count.py` 의 상단 주석에서 각 문자가 어느 게임 요소를 의미하는지 확인할 수 있다. 
-'''
+```
 python count.py
-'''
+```
