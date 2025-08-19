@@ -1,15 +1,15 @@
-2025-08-19 02:59
+2025-06-15 19:51
 ---------SAC---------
-n_envs=3
+n_envs=5
 eplen=25
-total_steps=100000
+total_steps=70000
 gamma=0.7
 tar_entropy=-20
 tau=0.005
 update_freq=10
 batch_size=384
 mem_size=500000
-device=cuda:0
+device=cpu
 play_style=Runner
 --------------------------------------------------
 Reward Function:

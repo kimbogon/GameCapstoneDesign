@@ -1,9 +1,0 @@
-----------------Total steps: 300----------------
-Time passed: 384s
-fps: 0.767
-FunBehaviour: -20.53 +- 24.33
-FunContent: 12.18 +- 4.49
-EpLength: 25.00 +- 0.00
-Playability: -7.50 +- 1.26
-TotalScore: -15.85 +- 27.56
-

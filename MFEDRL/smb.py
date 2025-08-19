@@ -333,7 +333,8 @@ def traverse_batched_level_files(path):
 
 
 if __name__ == '__main__':
-    lvl = MarioLevel.from_file('levels/original/mario-1-1.smblv')
+    # lvl = MarioLevel.from_file('levels/original/mario-1-1.smblv')
+    lvl = MarioLevel.from_file('exp_data/agent0/levels/agent0Levels_copy_1.smblvs')
     MarioProxy().play_game(lvl)
     pass
 

@@ -1,9 +1,9 @@
-# 가중치 기반 에이전트 맞춤형 레벨 생성
+# EDPCG의 플레이스타일 클러스터링과 최적화 레벨 생성
 
 ![가중치 1번 에이전트 최적화 레벨 시뮬레이션 결과](MFEDRL/agent1.gif)
 
 
--> 1번 에이전트 플레이스타일 최적화 레벨 시뮬레이션 결과
+-> agent1(적 처치를 선호하는 능숙한 에이전트)의 플레이스타일에 최적화된 레벨 시뮬레이션 결과
 
 아래 feature의 가중치를 반영한 에이전트를 기반으로 강화학습을 진행하여 각 에이전트에 
 최적화된 레벨을 생성할 수 있도록 한다.
@@ -69,6 +69,6 @@ python smb.py
 
 ## Based on
 
-This project is based on [MFEDRL](github.com/SUSTechGameAI/MFEDRL).
+This project is based on [EngagementMetrics](github.com/SUSTechGameAI/EngagementMetrics), [MFEDRL](github.com/SUSTechGameAI/MFEDRL).
 
-Parts of the code in the `MFEDRL-MASTER/` directory were modified from the original repository.
+Parts of the code in the `EngagementMetrics/`, `MFEDRL-MASTER/` directory were modified from the original repository.
